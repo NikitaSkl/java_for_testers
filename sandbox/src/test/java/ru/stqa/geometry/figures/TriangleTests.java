@@ -11,6 +11,6 @@ public class TriangleTests {
     }
     @Test
     void canCalculateArea(){
-        Assertions.assertEquals(4.15,new Triangle(3.0,3.0,5.0).area());
+        Assertions.assertEquals(10.825317547305483,new Triangle(5.0,5.0,5.0).area());
     }
 }
