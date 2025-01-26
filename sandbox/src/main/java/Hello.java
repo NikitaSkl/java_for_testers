@@ -1,3 +1,5 @@
+import ru.stqa.geometry.figures.Triangle;
+
 public class Hello {
     public static void main(String[] args) {
             var x=1;
@@ -7,6 +9,7 @@ public class Hello {
                 var z=divide(x, y);
                 System.out.println("Hello, world!");
             }
+            new Triangle(3.0,2.0,4.0);
     }
 
     private static int divide(int x, int y) {

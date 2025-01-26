@@ -13,5 +13,22 @@ public class TriangleTests {
     void canCalculateArea(){
         Assertions.assertEquals(10.825317547305483,new Triangle(5.0,5.0,5.0).area());
     }
+    @Test
+    void cannotCreateTriangleWithNegativeSide(){
+        try {
+            new Triangle(-3.0, 3.0, 2.0);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception){
 
+        }
+    }
+    @Test
+    void cannotCreateTriangleViolatingTriangleInequalityTheorem(){
+        try {
+            new Triangle(1.0,2.0,4.0);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception){
+            System.out.println(exception);
+        }
+    }
 }
