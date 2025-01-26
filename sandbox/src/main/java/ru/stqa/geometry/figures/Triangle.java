@@ -1,5 +1,7 @@
 package ru.stqa.geometry.figures;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Triangle {
@@ -33,6 +35,29 @@ public class Triangle {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Triangle triangle = (Triangle) object;
+        /*List<Double> sides=new ArrayList<>();
+        sides.add(triangle.a);
+        sides.add(triangle.b);
+        sides.add(triangle.c);
+        for (Double s : sides) {
+            if (s.equals(this.a)) {
+                sides.remove(s);
+                break;
+            }
+        }
+        for (Double s : sides) {
+            if (s.equals(this.b)) {
+                sides.remove(s);
+                break;
+            }
+        }
+        for (Double s : sides) {
+            if (s.equals(this.c)) {
+                sides.remove(s);
+                break;
+            }
+        }
+        return sides.isEmpty();*/
         return (Double.compare(a, triangle.a) == 0 && Double.compare(b, triangle.b) == 0 && Double.compare(c, triangle.c) == 0)
                 || (Double.compare(a, triangle.b) == 0 && Double.compare(b, triangle.c) == 0 && Double.compare(c, triangle.a) == 0)
                 || (Double.compare(a, triangle.c) == 0 && Double.compare(b, triangle.a) == 0 && Double.compare(c, triangle.b) == 0)
