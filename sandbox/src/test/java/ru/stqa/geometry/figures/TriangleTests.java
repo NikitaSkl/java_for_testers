@@ -31,4 +31,40 @@ public class TriangleTests {
             System.out.println(exception);
         }
     }
+    @Test
+    void testEquality(){
+        var triangle1=new Triangle(3.0,4.0, 5.0);
+        var triangle2=new Triangle(3.0,4.0, 5.0);
+        Assertions.assertEquals(triangle1,triangle2);
+    }
+    @Test
+    void testEquality2(){
+        var triangle1=new Triangle(3.0,4.0, 5.0);
+        var triangle2=new Triangle(5.0,4.0, 3.0);
+        Assertions.assertEquals(triangle1,triangle2);
+    }
+    @Test
+    void testEquality3(){
+        var triangle1=new Triangle(3.0,4.0, 5.0);
+        var triangle2=new Triangle(5.0,3.0, 4.0);
+        Assertions.assertEquals(triangle1,triangle2);
+    }
+    @Test
+    void testEquality4(){
+        var triangle1=new Triangle(3.0,4.0, 5.0);
+        var triangle2=new Triangle(3.0,5.0, 4.0);
+        Assertions.assertEquals(triangle1,triangle2);
+    }
+    @Test
+    void testEqualit5(){
+        var triangle1=new Triangle(3.0,4.0, 5.0);
+        var triangle2=new Triangle(4.0,3.0, 5.0);
+        Assertions.assertEquals(triangle1,triangle2);
+    }
+    @Test
+    void testEqualit6(){
+        var triangle1=new Triangle(3.0,4.0, 5.0);
+        var triangle2=new Triangle(5.0,4.0, 3.0);
+        Assertions.assertEquals(triangle1,triangle2);
+    }
 }
