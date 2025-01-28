@@ -10,7 +10,7 @@ public class RectangleTests {
             new Rectangle(-5.0,4.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception){
-            System.out.println("Negative ");
+            //System.out.println(exception);
         }
     }
     @Test
@@ -33,4 +33,5 @@ public class RectangleTests {
         var r2=new Rectangle(5.0, 2.0);
         Assertions.assertNotEquals(r1,r2);
     }
+
 }
