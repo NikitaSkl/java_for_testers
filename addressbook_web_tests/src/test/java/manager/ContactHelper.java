@@ -7,14 +7,21 @@ public class ContactHelper extends HelperBase {
     public ContactHelper(ApplicationManager manager) {
         super(manager);
     }
-    public void removeContact(Contact contact){
-        
-    }
     public void createContact(Contact contact){
         initContactCreation();
         fillContactForm(contact);
         submitContactCreation();
         returnToHomePage();
+    }
+    public void removeContact(){
+        openHomePage();
+        selectContact();
+        deleteContact();
+        //closeAlert();
+    }
+    public boolean isContactPresent() {
+        openHomePage();
+        return manager.isElementPresent(By.name(("selected[]")));
     }
 
     private void returnToHomePage() {
@@ -33,6 +40,19 @@ public class ContactHelper extends HelperBase {
     private void initContactCreation() {
             click(By.linkText("add new"));
     }
+    private void selectContact() {
+        click(By.name("selected[]"));
+    }
 
-
+    private void deleteContact() {
+        click(By.xpath("//input[@value='Delete']"));
+    }
+    private void openHomePage() {
+        if (!manager.isElementPresent(By.xpath("//input[@value='Delete']"))) { //проверка - не находимся ли уже на странице с контактами
+            click(By.linkText("home"));
+        }
+    }
+    private void closeAlert() {
+        manager.driver.switchTo().alert().accept();
+    }
 }
