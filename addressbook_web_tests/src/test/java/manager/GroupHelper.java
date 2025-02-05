@@ -30,7 +30,7 @@ public class GroupHelper extends HelperBase{
         returnToGroupsPage();
     }
     public void openGroupsPage() {
-        if (!manager.isElementPresent(By.name("new"))) {
+        if (!manager.isElementPresent(By.name("new"))) { //проверка того, не находимся ли уже на странице с группами
             click(By.linkText("groups"));
         }
     }
