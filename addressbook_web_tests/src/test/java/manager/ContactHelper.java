@@ -17,7 +17,6 @@ public class ContactHelper extends HelperBase {
         openHomePage();
         selectContact();
         deleteContact();
-        closeAlert();
     }
     public boolean isContactPresent() {
         openHomePage();
