@@ -10,6 +10,8 @@ public class TestBase {
 
     protected static ApplicationManager app;
 
+
+
     @BeforeEach //фикстура, подготовительный код
     public void setUp() {
         if (app==null){
@@ -27,6 +29,14 @@ public class TestBase {
         /*if (n<20){
             result=result+'\'';
         }*/
+        return result;
+    }
+    public static String randomStringOfNumbers(int n) {
+        var rnd = new Random();
+        var result="";
+        for (int i = 0; i < n; i++) {
+            result=result+(char)('0'+rnd.nextInt(10));
+        }
         return result;
     }
 }
