@@ -15,12 +15,12 @@ public class GroupCreationTests extends TestBase {
         for (var name:List.of("","group name")){
             for (var header:List.of("","group header")){
                 for (var footer:List.of("","group header")){
-                    result.add(new Group(name, header, footer));
+                    result.add(new Group().withName(name).withHeader(header).withFooter(footer));
                 }
             }
         }
         for (int i = 0; i < 5; i++) {
-            result.add(new Group(randomString(i*10),randomString(i*10),randomString(i*10)));
+            result.add(new Group().withName(randomString(i*10)).withFooter(randomString(i*10)).withHeader(randomString(i*10)));
         }
         return result;
     }
@@ -40,7 +40,7 @@ public class GroupCreationTests extends TestBase {
         Assertions.assertEquals(groupCount+1,app.groups().getCount());
     }
     public static List<Group> negativeGroupProvider() {
-        var result=new ArrayList<Group>(List.of(new Group("test group name'","","")));
+        var result=new ArrayList<Group>(List.of(new Group("", "test group name'","","")));
         return result;
     }
     @ParameterizedTest
