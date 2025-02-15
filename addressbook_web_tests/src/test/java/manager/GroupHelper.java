@@ -24,9 +24,9 @@ public class GroupHelper extends HelperBase{
         removeSelectedGroups();
         returnToGroupsPage();
     }
-    public void modifyGroup(Group modifiedGroup) {
+    public void modifyGroup(Group group, Group modifiedGroup) {
         openGroupsPage();
-        selectGroup(null); //подставили заглушку на время
+        selectGroup(group); //подставили заглушку на время
         initGroupModification();
         fillGroupForm(modifiedGroup);
         submitGroupModification();

@@ -19,10 +19,10 @@ public class GroupRemovalTests extends TestBase {
         var rnd=new Random();
         var index=rnd.nextInt(oldGroups.size());
         app.groups().removeGroup(oldGroups.get(index));
-        var currentGroups=app.groups().getList();
+        var newGroups=app.groups().getList();
         var expectedGroups=new ArrayList<Group>(oldGroups);
         expectedGroups.remove(index);
-        Assertions.assertEquals(currentGroups,expectedGroups);
+        Assertions.assertEquals(newGroups,expectedGroups);
     }
     @Test
     public void canRemoveAllGroupsAtOnce() {
