@@ -3,6 +3,9 @@ package manager;
 import model.Contact;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactHelper extends HelperBase {
     public ContactHelper(ApplicationManager manager) {
         super(manager);
@@ -13,9 +16,9 @@ public class ContactHelper extends HelperBase {
         submitContactCreation();
         returnToHomePage();
     }
-    public void removeContact(){
+    public void removeContact(Contact contact){
         openHomePage();
-        selectContact();
+        selectContact(contact);
         deleteContact();
     }
     public boolean isContactPresent() {
@@ -43,8 +46,9 @@ public class ContactHelper extends HelperBase {
     private void initContactCreation() {
             click(By.linkText("add new"));
     }
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(Contact contact) {
+        var checkbox=manager.driver.findElement(By.xpath(String.format("//input[@value='%s']",contact.id())));
+        checkbox.click();
     }
 
     private void deleteContact() {
@@ -57,5 +61,35 @@ public class ContactHelper extends HelperBase {
     }
     private void closeAlert() {
         manager.driver.switchTo().alert().accept();
+    }
+
+    public void removeAllContacts() {
+        openHomePage();
+        selectAllContacts();
+        deleteContact();
+    }
+
+    private void selectAllContacts() {
+        /*var checkboxes=manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes){
+            checkbox.click();
+        }*/
+        click(By.cssSelector("input[id='MassCB']"));
+    }
+
+    public List<Contact> getList() {
+        openHomePage();
+        var contacts = new ArrayList<Contact>();
+        var trs = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
+        for (var tr : trs) {
+            var checkbox=tr.findElement(By.name("selected[]"));
+            var id=checkbox.getAttribute("value");
+            var tds=tr.findElements(By.tagName("td"));
+            var lastName = tds.get(1).getText();
+            var firstName = tds.get(2).getText();
+            var mobile = tds.get(5).getText();
+            contacts.add(new Contact().withId(id).withFirstName(firstName).withLastName(lastName).withMobile(mobile));
+        }
+        return contacts;
     }
 }
