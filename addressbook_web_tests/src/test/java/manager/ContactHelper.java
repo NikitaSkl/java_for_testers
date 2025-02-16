@@ -21,6 +21,13 @@ public class ContactHelper extends HelperBase {
         selectContact(contact);
         deleteContact();
     }
+    public void modifyContact(Contact oldContact, Contact newContact) {
+        openHomePage();
+        initContactModification(oldContact);
+        fillContactForm(newContact);
+        submitContactModification();
+        returnToHomePage();
+    }
     public boolean isContactPresent() {
         openHomePage();
         return manager.isElementPresent(By.name(("selected[]")));
@@ -91,5 +98,13 @@ public class ContactHelper extends HelperBase {
             contacts.add(new Contact().withId(id).withFirstName(firstName).withLastName(lastName).withMobile(mobile));
         }
         return contacts;
+    }
+
+    private void submitContactModification() {
+        click(By.cssSelector("input[value='Update']"));
+    }
+
+    private void initContactModification(Contact oldContact) {
+        click(By.cssSelector(String.format("a[href='edit.php?id=%s']",oldContact.id())));
     }
 }
