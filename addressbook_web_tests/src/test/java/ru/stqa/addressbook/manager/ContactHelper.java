@@ -1,6 +1,6 @@
-package manager;
+package ru.stqa.addressbook.manager;
 
-import model.Contact;
+import ru.stqa.addressbook.model.Contact;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -49,6 +49,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("firstname"), contact.firstName());
         type(By.name("lastname"), contact.lastName());
         type(By.name("mobile"), contact.mobileNumber());
+        if (!("".equals(contact.photo()))) {
+            attach(By.name("photo"), contact.photo());
+        }
     }
     private void initContactCreation() {
             click(By.linkText("add new"));

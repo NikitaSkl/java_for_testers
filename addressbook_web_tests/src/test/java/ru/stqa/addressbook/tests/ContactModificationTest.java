@@ -1,6 +1,6 @@
-package tests;
+package ru.stqa.addressbook.tests;
 
-import model.Contact;
+import ru.stqa.addressbook.model.Contact;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,8 +11,8 @@ import java.util.Random;
 public class ContactModificationTest extends TestBase{
     @Test
     public void canModifyContact() {
-        if (!app.contacts().isContactPresent()){
-            app.contacts().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211"));
+        if (!app.contacts().isContactPresent()){ //photo="src/test/resources/images/avatar.png"
+            app.contacts().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211",""));
         }
         var oldContacts=app.contacts().getList();
         var rnd=new Random();

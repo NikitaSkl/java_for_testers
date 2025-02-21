@@ -1,5 +1,8 @@
 import ru.stqa.geometry.figures.Triangle;
 
+import java.io.File;
+import java.nio.file.Path;
+
 public class Hello {
     public static void main(String[] args) {
             var x=1;
@@ -9,6 +12,10 @@ public class Hello {
                 var z=divide(x, y);
                 System.out.println("Hello, world!");
             }
+            var configFile=new File("sandbox/build.gradle");
+        System.out.println(configFile.getAbsoluteFile());
+        System.out.println(configFile.exists());
+        System.out.println(new File("").getAbsolutePath());
     }
 
     private static int divide(int x, int y) {
