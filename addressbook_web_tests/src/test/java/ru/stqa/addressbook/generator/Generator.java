@@ -4,6 +4,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.Group;
 
@@ -61,7 +63,7 @@ public class Generator {
     }
     private void save(Object data) throws IOException {
         if ("json".equals(format)){
-            ObjectMapper mapper = new ObjectMapper(); //часть кода из README библиотеки
+            var mapper = new ObjectMapper(); //часть кода из README библиотеки
             mapper.enable(SerializationFeature.INDENT_OUTPUT); //включили для мэппера pretty-printing
             // mapper.writeValue(new File(outputFile), data); название файла выведено в переменную outputFile, данные для записи data передаются в параметр метода save
             var json=mapper.writeValueAsString(data);
@@ -69,6 +71,16 @@ public class Generator {
             try (var writer=new FileWriter(outputFile)){
                 writer.write(json);
             }
+        }
+        else if ("yaml".equals(format)){
+            var mapper = new YAMLMapper();
+            mapper.writeValue(new File(outputFile),data);
+
+        }
+        else if ("xml".equals(format)){
+            var mapper = new XmlMapper();
+            mapper.writeValue(new File(outputFile),data);
+
         }
         else {
             throw new IllegalArgumentException("Неизвестный формат данных "+format);

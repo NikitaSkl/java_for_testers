@@ -2,6 +2,7 @@ package ru.stqa.addressbook.tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.Group;
 import org.junit.jupiter.api.Assertions;
@@ -29,18 +30,22 @@ public class GroupCreationTests extends TestBase {
 //                }
 //            }
 //        }
-        var json="";
-        try (var reader=new FileReader("groups.json");
-        var breader=new BufferedReader(reader)){
-            var line = breader.readLine();
-            while (line!=null){
-                json=json+line;
-                line = breader.readLine();
-            }
-        }
-        //var json= Files.readString(Path.of("groups.json"));
-        ObjectMapper mapper = new ObjectMapper();
-        var value = mapper.readValue(json, new TypeReference<List<Group>>() {}); //TypeRef - класс без реализации, только с декларацией - в {} его реализация (пустой)
+
+//        var json="";
+//        try (var reader=new FileReader("groups.json");
+//        var breader=new BufferedReader(reader)){
+//            var line = breader.readLine();
+//            while (line!=null){
+//                json=json+line;
+//                line = breader.readLine();
+//            }
+//        }
+
+        //var json= Files.readString(Path.of("groups.json")); //для чтения файла формата json
+        //var mapper = new ObjectMapper(); //для чтения файла формата json
+        var xml=Files.readString(Path.of("groups.xml"));;
+        var mapper=new XmlMapper();
+        var value = mapper.readValue(xml, new TypeReference<List<Group>>() {}); //TypeRef - класс без реализации, только с декларацией - в {} его реализация (пустой)
         result.addAll(value);
         return result;
     }
