@@ -23,13 +23,13 @@ public class GroupCreationTests extends TestBase {
 
     public static List<Group> groupProvider() throws IOException {
         var result=new ArrayList<Group>();
-//        for (var name:List.of("","group name")){
-//            for (var header:List.of("","group header")){
-//                for (var footer:List.of("","group header")){
-//                    result.add(new Group().withName(name).withHeader(header).withFooter(footer));
-//                }
-//            }
-//        }
+        for (var name:List.of("","group name")){
+            for (var header:List.of("","group header")){
+                for (var footer:List.of("","group header")){
+                    result.add(new Group().withName(name).withHeader(header).withFooter(footer));
+                }
+            }
+        }
 
 //        var json="";
 //        try (var reader=new FileReader("groups.json");

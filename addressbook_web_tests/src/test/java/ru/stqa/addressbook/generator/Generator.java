@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import ru.stqa.addressbook.common.CommonFunctions;
+import ru.stqa.addressbook.model.Contact;
 import ru.stqa.addressbook.model.Group;
 
 import java.io.File;
@@ -59,7 +60,14 @@ public class Generator {
         return result;
     }
     private Object generateContacts() {
-        return null;
+        var result=new ArrayList<Contact>();
+        for (int i = 0; i < count; i++) {
+            result.add(new Contact().withFirstName(CommonFunctions.randomString(i * 3))
+                    .withLastName(CommonFunctions.randomString(i * 3))
+                    .withMobile(CommonFunctions.randomStringOfNumbers(i * 5))
+                    .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+        }
+        return result;
     }
     private void save(Object data) throws IOException {
         if ("json".equals(format)){

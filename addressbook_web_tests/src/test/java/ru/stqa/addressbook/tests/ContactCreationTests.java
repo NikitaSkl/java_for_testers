@@ -1,28 +1,35 @@
 package ru.stqa.addressbook.tests;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.Contact;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.stqa.addressbook.model.Group;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
-    public static List<Contact> contactProvider() {
+    public static List<Contact> contactProvider() throws IOException {
         var contacts = new ArrayList<Contact>();
         for (var firstName : List.of("test first name", "")) {
             for (var lastName : List.of("test middle name", "")) {
                 for (var mobile : List.of("89876543210", "")) {
-                    contacts.add(new Contact().withFirstName(firstName).withLastName(lastName).withMobile(mobile).withPhoto(randomFile("src/test/resources/images")));
+                    contacts.add(new Contact().withFirstName(firstName).withLastName(lastName).withMobile(mobile).withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
                 }
             }
         }
-        for (int i = 1; i < 5; i++) {
-            contacts.add(new Contact().withFirstName(CommonFunctions.randomString(i * 3)).withLastName(CommonFunctions.randomString(i * 3)).withMobile(randomStringOfNumbers(i * 5)).withPhoto(randomFile("src/test/resources/images")));
-        }
+        var xml= Files.readString(Path.of("contacts.xml"));;
+        var mapper=new XmlMapper();
+        var value = mapper.readValue(xml, new TypeReference<List<Contact>>() {}); //TypeRef - класс без реализации, только с декларацией - в {} его реализация (пустой)
+        contacts.addAll(value);
         return contacts;
     }
 
