@@ -8,8 +8,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,8 +29,18 @@ public class GroupCreationTests extends TestBase {
 //                }
 //            }
 //        }
+        var json="";
+        try (var reader=new FileReader("groups.json");
+        var breader=new BufferedReader(reader)){
+            var line = breader.readLine();
+            while (line!=null){
+                json=json+line;
+                line = breader.readLine();
+            }
+        }
+        //var json= Files.readString(Path.of("groups.json"));
         ObjectMapper mapper = new ObjectMapper();
-        var value = mapper.readValue(new File("groups.json"), new TypeReference<List<Group>>() {}); //TypeRef - класс без реализации, только с декларацией - в {} его реализация (пустой)
+        var value = mapper.readValue(json, new TypeReference<List<Group>>() {}); //TypeRef - класс без реализации, только с декларацией - в {} его реализация (пустой)
         result.addAll(value);
         return result;
     }
