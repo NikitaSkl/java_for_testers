@@ -2,9 +2,13 @@ package ru.stqa.addressbook.generator;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import ru.stqa.addressbook.common.CommonFunctions;
 import ru.stqa.addressbook.model.Group;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Generator {
@@ -16,7 +20,7 @@ public class Generator {
     String format;
     @Parameter(names={"--count", "-c"})
     int count;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         var generator=new Generator();
         JCommander.newBuilder()
                 .addObject(generator)//здесь описано, что создается парсер командной строки, который будет анализировать параметр описанные в объекте generator, с последующей передачей args парсеру
@@ -25,7 +29,7 @@ public class Generator {
         generator.run();
     }
 
-    private void run() {
+    private void run() throws IOException {
         var data=generate();
         save(data);
     }
@@ -54,7 +58,14 @@ public class Generator {
     private Object generateContacts() {
         return null;
     }
-    private void save(Object data) {
-
+    private void save(Object data) throws IOException {
+        if ("json".equals(format)){
+            ObjectMapper mapper = new ObjectMapper(); //часть кода из README библиотеки
+            mapper.enable(SerializationFeature.INDENT_OUTPUT); //включили для мэппера pretty-printing
+            mapper.writeValue(new File(outputFile), data); // название файла выведено в переменную outputFile, данные для записи data передаются в параметр метода save
+        }
+        else {
+            throw new IllegalArgumentException("Неизвестный формат данных "+format);
+        }
     }
 }

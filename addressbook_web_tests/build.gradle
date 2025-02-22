@@ -14,6 +14,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.27.0'
     implementation 'org.jcommander:jcommander:2.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
 }
 
 test {
