@@ -1,7 +1,5 @@
-import ru.stqa.geometry.figures.Triangle;
-
 import java.io.File;
-import java.nio.file.Path;
+import java.util.Arrays;
 
 public class Hello {
     public static void main(String[] args) {
@@ -16,10 +14,17 @@ public class Hello {
         System.out.println(configFile.getAbsoluteFile());
         System.out.println(configFile.exists());
         System.out.println(new File("").getAbsolutePath());
+        String[] array={"a","b","c"};
     }
 
     private static int divide(int x, int y) {
         var z= x / y;
         return z;
+    }
+    private static int a(int a,String b){
+        return 0;
+    }
+    private static int a(String b,int a){
+        return 0;
     }
 }

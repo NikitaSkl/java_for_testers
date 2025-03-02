@@ -27,7 +27,7 @@ public class Generator {
     public static void main(String[] args) throws IOException {
         var generator=new Generator();
         JCommander.newBuilder()
-                .addObject(generator)//здесь описано, что создается парсер командной строки, который будет анализировать параметр описанные в объекте generator, с последующей передачей args парсеру
+                .addObject(generator)//здесь описано, что создается парсер командной строки, который будет анализировать параметры описанные в объекте generator, с последующей передачей args парсеру
                 .build()
                 .parse(args);
         generator.run();
