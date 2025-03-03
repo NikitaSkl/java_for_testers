@@ -18,6 +18,7 @@ public class ApplicationManager {
     private ContactHelper contacts;
     private JdbcHelper jdbc;
     private Properties properties;
+    private HibernateHelper hbm;
 
     public void init(String browser, Properties properties) {
         this.properties=properties;
@@ -61,7 +62,12 @@ public class ApplicationManager {
         }
         return jdbc;
     }
-
+    public HibernateHelper hbm() {
+        if (hbm == null) {
+            hbm = new HibernateHelper(this); //при вызове конструктора помощника сообщаем,кто его менеджер
+        }
+        return hbm;
+    }
     public boolean isElementPresent(By locator) {
         try {
             driver.findElement(locator);
@@ -69,7 +75,7 @@ public class ApplicationManager {
         } catch (NoSuchElementException e) {
             return false;
         }
-
     }
+
 
 }

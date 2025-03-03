@@ -11,15 +11,15 @@ import java.util.Random;
 public class GroupModificationTests extends TestBase{
     @Test
     public void canModifyGroup(){
-        if (!app.groups().isGroupPresent()){
-            app.groups().createGroup(new Group("", "test group name 1", "test group header 1", "test group footer 1"));
+        if (app.hbm().getGroupCount()==0){
+            app.hbm().createGroup(new Group("", "test group name 1", "test group header 1", "test group footer 1"));
         }
-        var oldGroups=app.groups().getList();
+        var oldGroups=app.hbm().getGroupList();
         var rnd=new Random();
         var index=rnd.nextInt(oldGroups.size());
         var testData = new Group().withName("modified name");
         app.groups().modifyGroup(oldGroups.get(index), testData); //отредактировали группу с случайно сгенерированным индексом (в пределах размера списка групп) на группу с новым именем
-        var newGroups=app.groups().getList();
+        var newGroups=app.hbm().getGroupList();
         var expectedGroups=new ArrayList<Group>(oldGroups);
         expectedGroups.set(index,testData.withId((oldGroups.get(index)).id())); //заменили группу, по тому же индексу в старом списке, присвоив тот же айди и новое имя последовательно
         Comparator<Group> groupComparatorById = (o1, o2) -> {
