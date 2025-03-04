@@ -1,12 +1,10 @@
 package ru.stqa.addressbook.manager.hbm;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "group_list")
@@ -24,6 +22,11 @@ public class GroupRecord {
     public String footer;
 
     //public String deprecated = "0000-00-00 00:00:00";
+    @ManyToMany(fetch = FetchType.LAZY) //можно добавить доп. параметр fetch. Есть два значения параметра, по умолчанию стоит Lazy
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    public List<ContactRecord> contacts;
 
     public GroupRecord() {
     }

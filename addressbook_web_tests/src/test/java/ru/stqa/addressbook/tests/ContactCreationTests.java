@@ -32,7 +32,11 @@ public class ContactCreationTests extends TestBase {
         contacts.addAll(value);
         return contacts;
     }
-
+    public static List<Contact> singleRandomContact() {
+        return List.of(new Contact().withFirstName(CommonFunctions.randomString(10))
+                .withLastName(CommonFunctions.randomString(15))
+                .withMobile(CommonFunctions.randomString(20)));
+    }
     public static List<Contact> negativeContactProvider() {
         var contacts = new ArrayList<Contact>(List.of(new Contact("", "test first name'", "", "","")));
         return contacts;
@@ -52,6 +56,19 @@ public class ContactCreationTests extends TestBase {
         expectedContacts.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withPhoto(""));
         expectedContacts.sort(contactComparatorById);
         Assertions.assertEquals(expectedContacts, newContacts);
+    }
+    @ParameterizedTest
+    @MethodSource("singleRandomContact")
+    public void canCreateContactInGroup(Contact contact) {
+        var oldContacts = app.contacts().getList();
+        if (app.hbm().getGroupCount()==0){
+            app.hbm().createGroup(new Group("", "test group name 1", "test group header 1", "test group footer 1"));
+        }
+        var firstGroup=app.hbm().getGroupList().get(0);
+        var oldRelated=app.hbm().getContactsInGroup(firstGroup);
+        app.contacts().createContact(contact, firstGroup);
+        var newRelated=app.hbm().getContactsInGroup(firstGroup);
+        Assertions.assertEquals(newRelated.size(), oldRelated.size()+1);
     }
 
     @ParameterizedTest

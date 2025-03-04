@@ -5,6 +5,7 @@ public record Contact(String id, String firstName, String lastName, String mobil
     public Contact() {
         this("", "", "", "","");
     }
+
     public Contact withFirstName(String firstName) {
         return new Contact(this.id, firstName, this.lastName, this.mobileNumber,this.photo);
     }
