@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import org.junit.jupiter.api.AfterEach;
 import ru.stqa.addressbook.manager.ApplicationManager;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -14,6 +15,10 @@ public class TestBase {
     protected static ApplicationManager app;
 
 
+    @AfterEach
+    void checkBaseConsistency(){
+        app.jdbc().checkConsistency();
+    }
 
     @BeforeEach //фикстура, подготовительный код
     public void setUp() throws IOException {
