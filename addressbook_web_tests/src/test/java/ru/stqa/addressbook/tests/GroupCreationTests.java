@@ -69,8 +69,6 @@ public class GroupCreationTests extends TestBase {
         expectedGroups.add(group.withId(maxId));
         expectedGroups.sort(groupComparatorById);
         Assertions.assertEquals(expectedGroups,newGroups);
-
-        var newUiGroups=app.groups().getList();
     }
     public static List<Group> negativeGroupProvider() {
         var result=new ArrayList<Group>(List.of(new Group("", "test group name'","","")));
@@ -79,9 +77,9 @@ public class GroupCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("negativeGroupProvider")
     public void canNotCreateGroup(Group group) {
-        var oldGroups=app.groups().getList();
+        var oldGroups=app.hbm().getGroupList();
         app.groups().createGroup(group);
-        var newGroups=app.groups().getList();
+        var newGroups=app.hbm().getGroupList();
         Assertions.assertEquals(oldGroups,newGroups);
     }
     /*@ParameterizedTest //пример использования ValueSource, как альтернативный вариант передачи данных в параметр - значения только фиксированные
@@ -92,3 +90,4 @@ public class GroupCreationTests extends TestBase {
         Assertions.assertEquals(groupCount+1,app.groups().getCount());
     }*/
 }
+

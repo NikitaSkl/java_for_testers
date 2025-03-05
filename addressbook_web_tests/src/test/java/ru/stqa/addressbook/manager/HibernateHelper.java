@@ -43,28 +43,7 @@ public class HibernateHelper extends HelperBase{
         }
         return new GroupRecord(Integer.parseInt(id), data.name(), data.header(), data.footer());
     }
-    static List<Contact> convertContactList(List<ContactRecord> records) {
-        List<Contact> result=new ArrayList<>();
-        for (var record:records) {
-            result.add(convertContact(record));
-        }
-        return result;
-    }
 
-    private static Contact convertContact(ContactRecord record) {
-        return new Contact().withId(String.valueOf(record.id))
-                .withFirstName(record.firstname)
-                .withLastName(record.lastname)
-                .withMobile(record.mobile);
-    }
-    private static ContactRecord convertGroup(Contact data) {
-        var id=data.id();
-        if ("".equals(data.id())){
-            id="0";
-            //чтобы parseInt не сломался при пустом id - добавим проверку
-        }
-        return new ContactRecord(Integer.parseInt(id), data.firstName(), data.lastName(), data.mobileNumber());
-    }
 
     public List<Group> getGroupList(){
         return convertGroupList(sessionFactory.fromSession(session -> {
@@ -89,6 +68,48 @@ public class HibernateHelper extends HelperBase{
     public List<Contact> getContactsInGroup(Group group) {
         return sessionFactory.fromSession(session -> {
             return convertContactList(session.get(GroupRecord.class,group.id()).contacts); //session.get для получения объекта по идентификатору
+        });
+    }
+    static List<Contact> convertContactList(List<ContactRecord> records) {
+        List<Contact> result=new ArrayList<>();
+        for (var record:records) {
+            result.add(convertContact(record));
+        }
+        return result;
+    }
+
+    private static Contact convertContact(ContactRecord record) {
+        return new Contact().withId(String.valueOf(record.id))
+                .withFirstName(record.firstname)
+                .withLastName(record.lastname)
+                .withMobile(record.mobile);
+    }
+    private static ContactRecord convertContact(Contact data) {
+        var id=data.id();
+        if ("".equals(data.id())){
+            id="0";
+            //чтобы parseInt не сломался при пустом id - добавим проверку
+        }
+        return new ContactRecord(Integer.parseInt(id), data.firstName(), data.lastName(), data.mobileNumber());
+    }
+
+    public List<Contact> getContactsList() {
+        return convertContactList(sessionFactory.fromSession(session -> {
+            return session.createQuery("from ContactRecord",ContactRecord.class).list();
+        }));
+    }
+
+    public long getContactCount() {
+        return sessionFactory.fromSession(session -> {
+            return session.createQuery("select count (*) from ContactRecord",Long.class).getSingleResult();
+        });
+    }
+
+    public void createContact(Contact contact) {
+        sessionFactory.inSession(session -> {
+            session.getTransaction().begin();
+            session.persist(convertContact(contact));
+            session.getTransaction().commit();
         });
     }
 }

@@ -79,9 +79,10 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//input[@value='Delete']"));
     }
     private void openHomePage() {
-        if (!manager.isElementPresent(By.xpath("//input[@value='Delete']"))) { //проверка - не находимся ли уже на странице с контактами
+        /*if (!manager.isElementPresent(By.xpath("//input[@value='Delete']"))) { //проверка - не находимся ли уже на странице с контактами
             click(By.linkText("home"));
-        }
+        }*/
+        click(By.xpath("//img[@id='logo']"));
     }
     private void closeAlert() {
         manager.driver.switchTo().alert().accept();

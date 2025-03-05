@@ -17,6 +17,30 @@ public class ContactRecord {
     public String lastname;
     @Column
     public String mobile;
+    @Column
+    public String middlename = "";
+    @Column
+    public String nickname = "";
+    @Column
+    public String company = "";
+    @Column
+    public String title = "";
+    @Column
+    public String address = "";
+    @Column
+    public String home = "";
+    @Column
+    public String work = "";
+    @Column
+    public String fax = "";
+    @Column
+    public String email = "";
+    @Column
+    public String email2 = "";
+    @Column
+    public String email3 = "";
+    @Column
+    public String homepage = "";
 
     public ContactRecord() {
     }

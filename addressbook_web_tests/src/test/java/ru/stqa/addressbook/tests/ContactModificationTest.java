@@ -11,15 +11,15 @@ import java.util.Random;
 public class ContactModificationTest extends TestBase{
     @Test
     public void canModifyContact() {
-        if (!app.contacts().isContactPresent()){ //photo="src/test/resources/images/avatar.png"
-            app.contacts().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211",""));
+        if (app.hbm().getContactCount()==0){
+            app.hbm().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211","src/test/resources/images/avatar.png"));
         }
-        var oldContacts=app.contacts().getList();
+        var oldContacts=app.hbm().getContactsList();
         var rnd=new Random();
         var index=rnd.nextInt(oldContacts.size());
         var testData = new Contact().withFirstName("modified firstname");
         app.contacts().modifyContact(oldContacts.get(index),testData);
-        var newContacts=app.contacts().getList();
+        var newContacts=app.hbm().getContactsList();
         var expectedContacts=new ArrayList<>(oldContacts);
         Comparator<Contact> contactComparatorById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));

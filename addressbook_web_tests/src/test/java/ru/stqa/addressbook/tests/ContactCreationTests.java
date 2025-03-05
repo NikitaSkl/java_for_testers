@@ -43,24 +43,24 @@ public class ContactCreationTests extends TestBase {
     }
 
     @ParameterizedTest
-    @MethodSource("contactProvider")
+    @MethodSource("singleRandomContact")
     public void canCreateMultipleContacts(Contact contact) {
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactsList();
         app.contacts().createContact(contact);
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactsList();
         var expectedContacts = new ArrayList<>(oldContacts);
         Comparator<Contact> contactComparatorById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newContacts.sort(contactComparatorById);
-        expectedContacts.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withPhoto(""));
+        var maxId = newContacts.get(newContacts.size() - 1).id();
+        expectedContacts.add(contact.withId(maxId));
         expectedContacts.sort(contactComparatorById);
         Assertions.assertEquals(expectedContacts, newContacts);
     }
     @ParameterizedTest
     @MethodSource("singleRandomContact")
     public void canCreateContactInGroup(Contact contact) {
-        var oldContacts = app.contacts().getList();
         if (app.hbm().getGroupCount()==0){
             app.hbm().createGroup(new Group("", "test group name 1", "test group header 1", "test group footer 1"));
         }
@@ -74,9 +74,11 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("negativeContactProvider")
     public void canNotCreateContact(Contact contact) {
-        var oldContacts = app.contacts().getList();
+        //var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactsList();
         app.contacts().createContact(contact);
-        var newContacts = app.contacts().getList();
+        //var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactsList();
         Assertions.assertEquals(newContacts, oldContacts);
     }
 }
