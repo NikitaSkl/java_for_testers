@@ -43,6 +43,20 @@ public class ContactHelper extends HelperBase {
         selectContact(contact);
         submitContactRemoval();
     }
+    public void addContactToGroup(Contact contact, Group firstGroup) {
+        openHomePage();
+        selectContact(contact);
+        selectGroupToAdd(firstGroup);
+        submitContactAddition();
+    }
+
+    private void selectGroupToAdd(Group firstGroup) {
+        new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(firstGroup.id());
+    }
+
+    private void submitContactAddition() {
+        click(By.name("add"));
+    }
 
     private void selectGroupFromList(Group group) {
         new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
