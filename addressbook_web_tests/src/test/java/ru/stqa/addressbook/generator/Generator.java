@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Generator {
     @Parameter(names = {"--type","-t"})
@@ -49,25 +52,26 @@ public class Generator {
             throw new IllegalArgumentException("Неизвестный тип данных "+type);
         }
     }
-
-    private Object generateGroups() {
-        var result=new ArrayList<Group>();
+    private Object generateData(Supplier<Object> supplier){
+        return Stream.generate(supplier).limit(count).collect(Collectors.toList()); //коллектор собирает элементы из потока и формирует список
+        /*var result=new ArrayList<Object>();
         for (int i = 0; i < count; i++) {
-            result.add(new Group().withName(CommonFunctions.randomString(i*10))
-                    .withFooter(CommonFunctions.randomString(i*10))
-                    .withHeader(CommonFunctions.randomString(i*10)));
+            result.add(supplier.get());
         }
-        return result;
+        return result;*/
+    }
+    private Object generateGroups() {
+        return generateData(()-> (new Group()
+                .withName(CommonFunctions.randomString(10))
+                .withFooter(CommonFunctions.randomString(10))
+                .withHeader(CommonFunctions.randomString(10))));
     }
     private Object generateContacts() {
-        var result=new ArrayList<Contact>();
-        for (int i = 0; i < count; i++) {
-            result.add(new Contact().withFirstName(CommonFunctions.randomString(i * 3))
-                    .withLastName(CommonFunctions.randomString(i * 3))
-                    .withMobile(CommonFunctions.randomStringOfNumbers(i * 5))
-                    .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
-        }
-        return result;
+        return generateData(()->(new Contact()
+                    .withFirstName(CommonFunctions.randomString(3))
+                    .withLastName(CommonFunctions.randomString(3))
+                    .withMobile(CommonFunctions.randomStringOfNumbers(5))
+                    .withPhoto(CommonFunctions.randomFile("src/test/resources/images"))));
     }
     private void save(Object data) throws IOException {
         if ("json".equals(format)){

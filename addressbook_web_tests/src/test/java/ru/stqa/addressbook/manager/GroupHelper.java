@@ -1,10 +1,12 @@
 package ru.stqa.addressbook.manager;
 
+import org.openqa.selenium.WebElement;
 import ru.stqa.addressbook.model.Group;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //Помощник по работе с группами (Создание, удаление, редактирование)
 public class GroupHelper extends HelperBase{
@@ -96,22 +98,25 @@ public class GroupHelper extends HelperBase{
     }
 
     private void selectAllGroups() {
-        var checkboxes=manager.driver.findElements(By.name("selected[]"));
-        for (var checkbox:checkboxes){
+        /*for (var checkbox:checkboxes){
             checkbox.click();
-        }
+        }*/
+        manager.driver
+                .findElements(By.name("selected[]"))
+                .forEach(WebElement::click);
     }
 
     public List<Group> getList() {
         openGroupsPage();
-        var groups= new ArrayList<Group>();
-        var spans=manager.driver.findElements(By.cssSelector("span.group"));
-        for (var span:spans){
-            var name=span.getText();
-            var checkbox=span.findElement(By.name("selected[]")); //поиск выполняется только внутри элемента span, а когда вызываем драйвер, то на всей странице
-            var id=checkbox.getAttribute("value");
-            groups.add(new Group().withName(name).withId(id));
-        }
-        return groups;
+        var groups = new ArrayList<Group>();
+        var spans = manager.driver.findElements(By.cssSelector("span.group"));
+        return spans.stream().map(span -> {
+                    var name = span.getText();
+                    var checkbox = span.findElement(By.name("selected[]")); //поиск выполняется только внутри элемента span, а когда вызываем драйвер, то на всей странице
+                    var id = checkbox.getAttribute("value");
+                    return (new Group().withName(name).withId(id));
+                })
+                .collect(Collectors.toList());
+
     }
 }

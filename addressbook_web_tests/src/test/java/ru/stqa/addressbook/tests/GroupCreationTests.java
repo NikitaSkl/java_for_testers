@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class GroupCreationTests extends TestBase {
 
@@ -45,13 +47,15 @@ public class GroupCreationTests extends TestBase {
         result.addAll(value);
         return result;
     }
-    public static List<Group> singleRandomGroup() throws IOException {
-        return List.of(new Group().withName(CommonFunctions.randomString(10))
+    public static Stream<Group> randomGroups() throws IOException {
+        Supplier<Group> groupSupplier=() -> (new Group()
+                .withName(CommonFunctions.randomString(10))
                 .withHeader(CommonFunctions.randomString(15))
                 .withFooter(CommonFunctions.randomString(20)));
+        return Stream.generate(groupSupplier).limit(3);
     }
     @ParameterizedTest
-    @MethodSource("singleRandomGroup")
+    @MethodSource("randomGroups")
     public void canCreateGroup(Group group) {
         //var oldGroups=app.groups().getList();
         var oldGroups=app.hbm().getGroupList();

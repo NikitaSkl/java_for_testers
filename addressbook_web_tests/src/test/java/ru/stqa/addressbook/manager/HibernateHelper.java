@@ -10,6 +10,8 @@ import ru.stqa.addressbook.model.Group;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HibernateHelper extends HelperBase{
     private SessionFactory sessionFactory;
@@ -25,11 +27,14 @@ public class HibernateHelper extends HelperBase{
                 .buildSessionFactory();
     }
     static List<Group> convertGroupList(List<GroupRecord> records) {
-        List<Group> result=new ArrayList<>();
+        return records.stream()
+                .map(HibernateHelper::convertGroup)
+                .collect(Collectors.toList());
+        /*List<Group> result=new ArrayList<>();
         for (var record:records) {
             result.add(convertGroup(record));
         }
-        return result;
+        return result;*/
     }
 
     private static Group convertGroup(GroupRecord record) {
@@ -71,11 +76,9 @@ public class HibernateHelper extends HelperBase{
         });
     }
     static List<Contact> convertContactList(List<ContactRecord> records) {
-        List<Contact> result=new ArrayList<>();
-        for (var record:records) {
-            result.add(convertContact(record));
-        }
-        return result;
+        return records.stream()
+                .map(HibernateHelper::convertContact)
+                .collect(Collectors.toList());
     }
 
     private static Contact convertContact(ContactRecord record) {
