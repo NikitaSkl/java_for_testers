@@ -32,35 +32,23 @@ public class ContactModificationTest extends TestBase{
     }
     @Test
     public void canAddContactToGroup() {
-        var contactAlreadyInGroup=false;
         if (app.hbm().getContactCount()==0){
             app.hbm().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211","src/test/resources/images/avatar.png"));
         }
-        if (app.hbm().getGroupCount()==0){
-            app.hbm().createGroup(new Group("", "test group name 1", "test group header 1", "test group footer 1"));
-        }
+        app.hbm().createGroup(new Group("", "test group name 1", "test group header 1", "test group footer 1"));
 
         var contacts=app.hbm().getContactsList();
-        var groups=app.hbm().getGroupList();
-        var groupIndex = new Random().nextInt(groups.size());
-        var newGroup=app.hbm().getGroupList().get(groupIndex);
-        var oldRelated=app.hbm().getContactsInGroup(newGroup);
-
         var contactIndex = new Random().nextInt(contacts.size());
-        var contactId=contacts.get(contactIndex).id();
-        for (Contact contact: oldRelated) {
-            if (contact.id().equals(contactId)) {
-                contactAlreadyInGroup=true;
-                break;
-            }
-        }
 
+        var groups=app.hbm().getGroupList();
+        Comparator<Group> groupComparatorById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        groups.sort(groupComparatorById);
+        var newGroup=app.hbm().getGroupList().get(groups.size()-1);
+        var oldRelated=app.hbm().getContactsInGroup(newGroup);
         app.contacts().addContactToGroup(contacts.get(contactIndex),newGroup);
         var newRelated=app.hbm().getContactsInGroup(newGroup);
-        if (contactAlreadyInGroup) {
-            Assertions.assertEquals(newRelated.size(),oldRelated.size());
-        }
-        else Assertions.assertEquals(newRelated.size(),oldRelated.size()+1);
-
+        Assertions.assertEquals(newRelated.size(),oldRelated.size()+1);
     }
 }
