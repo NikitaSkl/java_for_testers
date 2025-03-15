@@ -38,7 +38,7 @@ public class ContactCreationTests extends TestBase {
                 .withMobile(CommonFunctions.randomString(20)));
     }
     public static List<Contact> negativeContactProvider() {
-        var contacts = new ArrayList<Contact>(List.of(new Contact("", "test first name'", "", "","")));
+        var contacts = new ArrayList<Contact>(List.of(new Contact("", "test first name'", "", "","", "", "", "")));
         return contacts;
     }
 

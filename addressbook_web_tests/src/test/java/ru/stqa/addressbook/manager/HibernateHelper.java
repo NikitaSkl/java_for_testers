@@ -8,10 +8,8 @@ import ru.stqa.addressbook.manager.hbm.GroupRecord;
 import ru.stqa.addressbook.model.Contact;
 import ru.stqa.addressbook.model.Group;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HibernateHelper extends HelperBase{
     private SessionFactory sessionFactory;
@@ -85,7 +83,10 @@ public class HibernateHelper extends HelperBase{
         return new Contact().withId(String.valueOf(record.id))
                 .withFirstName(record.firstname)
                 .withLastName(record.lastname)
-                .withMobile(record.mobile);
+                .withMobile(record.mobile)
+                .withHome(record.home)
+                .withWork(record.work)
+                .withSecondary(record.phone2);
     }
     private static ContactRecord convertContact(Contact data) {
         var id=data.id();
@@ -93,7 +94,7 @@ public class HibernateHelper extends HelperBase{
             id="0";
             //чтобы parseInt не сломался при пустом id - добавим проверку
         }
-        return new ContactRecord(Integer.parseInt(id), data.firstName(), data.lastName(), data.mobileNumber());
+        return new ContactRecord(Integer.parseInt(id), data.firstName(), data.lastName(), data.mobile());
     }
 
     public List<Contact> getContactsList() {

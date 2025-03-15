@@ -1,12 +1,15 @@
 package ru.stqa.addressbook.manager;
 
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import ru.stqa.addressbook.model.Contact;
 import org.openqa.selenium.By;
 import ru.stqa.addressbook.model.Group;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ContactHelper extends HelperBase {
     public ContactHelper(ApplicationManager manager) {
@@ -90,7 +93,7 @@ public class ContactHelper extends HelperBase {
     private void fillContactForm(Contact contact) {
         type(By.name("firstname"), contact.firstName());
         type(By.name("lastname"), contact.lastName());
-        type(By.name("mobile"), contact.mobileNumber());
+        type(By.name("mobile"), contact.mobile());
         if (!("".equals(contact.photo()))) {
             attach(By.name("photo"), contact.photo());
         }
@@ -153,5 +156,21 @@ public class ContactHelper extends HelperBase {
 
     private void initContactModification(Contact oldContact) {
         click(By.cssSelector(String.format("a[href='edit.php?id=%s']",oldContact.id())));
+    }
+
+    public String getPhonesOfContact(Contact contact) {
+        return manager.driver.findElement(By.xpath(
+                String.format("//input[@id='%s']/../../td[6]",contact.id()))).getText();
+    }
+
+    public Map<String,String> getPhones() {
+        var result=new HashMap<String,String>();
+        var tableRows=manager.driver.findElements(By.name("entry"));
+        for (WebElement tableRow : tableRows) {
+            var id=tableRow.findElement(By.tagName("input")).getAttribute("value");
+            var phones=tableRow.findElements(By.tagName("td")).get(5).getText();
+            result.put(id,phones);
+        }
+        return result;
     }
 }

@@ -28,9 +28,11 @@ public class ContactRecord {
     @Column
     public String address = "";
     @Column
-    public String home = "";
+    public String home;
     @Column
-    public String work = "";
+    public String work;
+    @Column
+    public String phone2;
     @Column
     public String fax = "";
     @Column

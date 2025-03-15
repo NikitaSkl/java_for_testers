@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CollectionTests {
     @Test
@@ -24,7 +26,13 @@ public class CollectionTests {
         list.add("b");
         list.add("c");*/
         Assertions.assertEquals("a",list.get(0));
-
     }
-
+    @Test
+    public void setTests(){
+        var set = new HashSet<>(List.of("a","b","c","a"));
+        Assertions.assertEquals(3,set.size());
+        var element=set.stream().findAny().get();
+        set.add("a");
+        Assertions.assertEquals(3,set.size());
     }
+}

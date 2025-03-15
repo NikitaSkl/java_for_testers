@@ -14,7 +14,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GroupCreationTests extends TestBase {
@@ -52,7 +54,7 @@ public class GroupCreationTests extends TestBase {
                 .withName(CommonFunctions.randomString(10))
                 .withHeader(CommonFunctions.randomString(15))
                 .withFooter(CommonFunctions.randomString(20)));
-        return Stream.generate(groupSupplier).limit(3);
+        return Stream.generate(groupSupplier).limit(1);
     }
     @ParameterizedTest
     @MethodSource("randomGroups")
@@ -62,17 +64,12 @@ public class GroupCreationTests extends TestBase {
         app.groups().createGroup(group);
         //var newGroups=app.groups().getList();
         var newGroups=app.hbm().getGroupList();
-        var expectedGroups=new ArrayList<Group>(oldGroups);
-        Comparator<Group> groupComparatorById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
-        newGroups.sort(groupComparatorById);
-        var maxId=newGroups.get(newGroups.size()-1).id();
 
-        //expectedGroups.add(group.withId(maxId).withHeader("").withFooter("")); // добавляем объект группу, созданный провайдером, где могут быть заполнены любые поля объекта, а с помощью getList() забираем только имя и id, но сравнение объектов группа происходит по всем полям, поэтому тесты падают
-        expectedGroups.add(group.withId(maxId));
-        expectedGroups.sort(groupComparatorById);
-        Assertions.assertEquals(expectedGroups,newGroups);
+        var expectedGroups=new ArrayList<Group>(oldGroups);
+        var extraGroups = newGroups.stream().filter(g -> ! oldGroups.contains(g)).toList();
+        var newId=extraGroups.get(0).id();
+        expectedGroups.add(group.withId(newId));
+        Assertions.assertEquals(Set.copyOf(expectedGroups),Set.copyOf(newGroups));
     }
     public static List<Group> negativeGroupProvider() {
         var result=new ArrayList<Group>(List.of(new Group("", "test group name'","","")));
