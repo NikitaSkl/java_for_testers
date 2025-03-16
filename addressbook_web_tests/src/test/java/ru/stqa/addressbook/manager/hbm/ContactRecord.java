@@ -26,7 +26,7 @@ public class ContactRecord {
     @Column
     public String title = "";
     @Column
-    public String address = "";
+    public String address;
     @Column
     public String home;
     @Column
@@ -36,11 +36,11 @@ public class ContactRecord {
     @Column
     public String fax = "";
     @Column
-    public String email = "";
+    public String email;
     @Column
-    public String email2 = "";
+    public String email2;
     @Column
-    public String email3 = "";
+    public String email3;
     @Column
     public String homepage = "";
 

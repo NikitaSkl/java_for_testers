@@ -13,7 +13,7 @@ public class ContactModificationTest extends TestBase{
     @Test
     public void canModifyContact() {
         if (app.hbm().getContactCount()==0){
-            app.hbm().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211","src/test/resources/images/avatar.png", "", "", ""));
+            app.hbm().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211","src/test/resources/images/avatar.png", "", "", "", "", "", "", ""));
         }
         var oldContacts=app.hbm().getContactsList();
         var rnd=new Random();
@@ -33,7 +33,7 @@ public class ContactModificationTest extends TestBase{
     @Test
     public void canAddContactToGroup() {
         if (app.hbm().getContactCount()==0){
-            app.hbm().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211","src/test/resources/images/avatar.png", "", "", ""));
+            app.hbm().createContact(new Contact("", "test firstname 1", "test lastname 1", "89876543211","src/test/resources/images/avatar.png", "", "", "", "", "", "", ""));
         }
         app.hbm().createGroup(new Group("", "test group name 1", "test group header 1", "test group footer 1"));
 

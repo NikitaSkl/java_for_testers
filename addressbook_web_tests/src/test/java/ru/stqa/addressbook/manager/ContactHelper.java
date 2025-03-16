@@ -173,4 +173,26 @@ public class ContactHelper extends HelperBase {
         }
         return result;
     }
+
+    public Map<String, String> getAddresses() {
+        var result=new HashMap<String,String>();
+        var tableRows=manager.driver.findElements(By.name("entry"));
+        for (WebElement tableRow : tableRows) {
+            var id=tableRow.findElement(By.tagName("input")).getAttribute("value");
+            var address=tableRow.findElements(By.tagName("td")).get(3).getText();
+            result.put(id,address);
+        }
+        return result;
+    }
+
+    public Map<String, String> getEmails() {
+        var result=new HashMap<String, String>();
+        var tableRows=manager.driver.findElements(By.name("entry"));
+        for (WebElement tableRow : tableRows) {
+            var id=tableRow.findElement(By.tagName("input")).getAttribute("value");
+            var emails=tableRow.findElements(By.tagName("td")).get(4).getText();
+            result.put(id,emails);
+        }
+        return result;
+    }
 }
