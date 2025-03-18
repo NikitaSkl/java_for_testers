@@ -10,6 +10,7 @@ public class HttpSessionHelper extends HelperBase{
     public HttpSessionHelper(ApplicationManager manager) {
         super(manager);
         client = new OkHttpClient.Builder().cookieJar(new JavaNetCookieJar(new CookieManager())).build();
+        //client=new OkHttpClient();
     }
 
     public void login(String administrator, String password) {
@@ -35,7 +36,7 @@ public class HttpSessionHelper extends HelperBase{
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) throw new RuntimeException("Unexpected code " + response);
             var body=response.body().string();
-            return body.contains("<span class=\"user-info\">"); //проверяем, что страница содержит элемент доступный после у успешного логина
+            return body.contains("<span class=\"user-info\">"); //проверяем, что страница содержит элемент доступный после успешного логина
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
