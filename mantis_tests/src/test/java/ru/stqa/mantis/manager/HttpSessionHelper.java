@@ -13,9 +13,9 @@ public class HttpSessionHelper extends HelperBase{
         //client=new OkHttpClient();
     }
 
-    public void login(String administrator, String password) {
+    public void login(String username, String password) {
         RequestBody formBody = new FormBody.Builder()
-                .add("username",administrator)
+                .add("username",username)
                 .add("password",password)
                 .build();
         Request request = new Request.Builder()
