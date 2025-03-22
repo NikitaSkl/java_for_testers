@@ -6,14 +6,15 @@ import ru.stqa.mantis.common.CommonFunctions;
 
 import java.time.Duration;
 import java.util.regex.Pattern;
-
+import java.util.stream.Stream;
 public class UserRegistrationTests extends TestBase{
     @Test
     void canRegisterUser(){
         //создать пользователя (адрес) на почтовом сервере (JamesHelper)
         var username=CommonFunctions.randomString(10);
         var email=String.format("%s@localhost", username);
-        app.jamesCli().addUser(email, "password");
+        //app.jamesCli().addUser(email, "password");
+        app.jamesApi().addUser(email,"password");
         //заполняем форму создания и отправляем (браузер)
         app.registration().registerNewUser(email,username);
         //получаем почту (MailHelper)
@@ -34,4 +35,5 @@ public class UserRegistrationTests extends TestBase{
         app.http().login(username,"new_password");
         Assertions.assertTrue(app.http().isLoggedIn());
     }
+
 }
