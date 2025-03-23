@@ -56,7 +56,11 @@ public class UserRegistrationTests extends TestBase{
 
         app.registration().confirmRegistration(url);
         app.registration().updatePassword();
-
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         app.http().login(username,"new_password");
         Assertions.assertTrue(app.http().isLoggedIn());
     }
