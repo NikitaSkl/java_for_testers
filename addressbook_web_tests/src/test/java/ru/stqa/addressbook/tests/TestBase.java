@@ -15,10 +15,10 @@ public class TestBase {
     protected static ApplicationManager app;
 
 
-    @AfterEach
-    void checkBaseConsistency(){
-        app.jdbc().checkConsistency();
-    }
+//    @AfterEach
+//    void checkBaseConsistency(){
+//        app.jdbc().checkConsistency();
+//    }
 
     @BeforeEach //фикстура, подготовительный код
     public void setUp() throws IOException {

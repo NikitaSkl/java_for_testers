@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import ru.stqa.addressbook.model.Group;
 import org.openqa.selenium.By;
@@ -20,6 +21,7 @@ public class GroupHelper extends HelperBase{
         submitGroupCreation();
         returnToGroupsPage();
     }
+    @Step
     public void removeGroup(Group group) { //доработали метод, передавая объект группу, которую хотим удалить
         openGroupsPage();
         selectGroup(group); //передали в выбор группы аргумент функции
@@ -89,7 +91,7 @@ public class GroupHelper extends HelperBase{
     }
 
     private void selectGroup(Group group) {
-        click(By.cssSelector(String.format("input[value='%s']", group.id()))); //доработали выбор группы с помощью поиска группы по id через cssSelector
+        click(By.cssSelector(String.format("input2[value='%s']", group.id()))); //доработали выбор группы с помощью поиска группы по id через cssSelector
     }
 
     public int getCount() {

@@ -1,8 +1,10 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Step;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
+import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.manager.hbm.ContactRecord;
 import ru.stqa.addressbook.manager.hbm.GroupRecord;
 import ru.stqa.addressbook.model.Contact;
@@ -47,7 +49,7 @@ public class HibernateHelper extends HelperBase{
         return new GroupRecord(Integer.parseInt(id), data.name(), data.header(), data.footer());
     }
 
-
+    @Step
     public List<Group> getGroupList(){
         return convertGroupList(sessionFactory.fromSession(session -> {
             return session.createQuery("from GroupRecord",GroupRecord.class).list(); //здесь возвращаются объекты типа GroupRecord, значит нужно преобразование к Group
@@ -59,7 +61,7 @@ public class HibernateHelper extends HelperBase{
             return session.createQuery("select count (*) from GroupRecord",Long.class).getSingleResult();
         });
     }
-
+    @Step
     public void createGroup(Group group) {
         sessionFactory.inSession(session -> {
             session.getTransaction().begin();
